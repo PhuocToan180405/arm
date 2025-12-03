@@ -48,6 +48,12 @@ def generate_launch_description():
 					'arm_controller'],
 					output='screen'
 					)
+	
+	load_gripper_controller = ExecuteProcess(
+					cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+					'gripper_controller'],
+					output='screen'
+					)
 					
 	spawn_entity = Node(package = 'gazebo_ros', executable = 'spawn_entity.py', 
 			arguments = ['-topic', '/robot_description',
@@ -64,6 +70,11 @@ def generate_launch_description():
 				event_handler=OnProcessExit(
 					target_action=load_joint_state_controller,
 					on_exit=[load_arm_controller],)
+					),
+		RegisterEventHandler(
+				event_handler=OnProcessExit(
+					target_action=load_arm_controller,
+					on_exit=[load_gripper_controller],)
 					),
 		gazebo, 
 		node_robot_state_publisher,

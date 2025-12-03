@@ -6,10 +6,8 @@ controller_manager:
     robot_arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-
-    end_effector_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-
+    gripper_controller:
+      type: forward_command_controller/ForwardCommandController
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -21,20 +19,16 @@ robot_arm_controller:
       - joint_2
       - joint_3
       - joint_4
-      - joint_5
-      - joint_6
     command_interfaces:
       - position
       - velocity
     state_interfaces:
       - position
       - velocity
-end_effector_controller:
+
+gripper_controller:
   ros__parameters:
-    joint: joint_6
-    command_interfaces:
-      - position
-      - velocity
-    state_interfaces:
-      - position
-      - velocity
+    joints:
+      - panda_finger_joint1
+      - panda_finger_joint2
+    interface_name: position
