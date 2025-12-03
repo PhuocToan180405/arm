@@ -7,12 +7,13 @@ from launch_ros.actions import Node
 import xacro
 
 def generate_launch_description():
-    # Đường dẫn đến package
+    # Get package path
     pkg_path = get_package_share_directory('six_dof_arm')
     xacro_file = os.path.join(pkg_path, 'urdf', 'six_dof_arm.urdf')
     
-    # Xử lý file xacro
-    doc = xacro.parse(open(xacro_file))
+    # Parse xacro file
+    with open(xacro_file, 'r') as f:
+        doc = xacro.parse(f)
     xacro.process_doc(doc)
     robot_description = {'robot_description': doc.toxml()}
     
